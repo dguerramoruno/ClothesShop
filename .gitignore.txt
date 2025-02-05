@@ -9,3 +9,4 @@ obj/
 # Configuración de usuario y entorno
 *.user
 *.suo
+*.sd
