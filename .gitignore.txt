@@ -1,0 +1,11 @@
+# Archivos de Visual Studio
+.vs/
+*.vsidx
+
+# Directorios de compilación
+bin/
+obj/
+
+# Configuración de usuario y entorno
+*.user
+*.suo
