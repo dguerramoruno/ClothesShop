@@ -1,0 +1,8 @@
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Tests\bin\x86\Release\net8.0\.msCoverageSourceRootsMapping_Tests
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Tests\bin\x86\Release\net8.0\CoverletSourceRootsMapping_Tests
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Tests\obj\x86\Release\net8.0\Tests.csproj.AssemblyReference.cache
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Tests\obj\x86\Release\net8.0\Tests.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Tests\obj\x86\Release\net8.0\Tests.AssemblyInfoInputs.cache
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Tests\obj\x86\Release\net8.0\Tests.AssemblyInfo.cs
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Tests\obj\x86\Release\net8.0\Tests.csproj.CoreCompileInputs.cache
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Tests\obj\x86\Release\net8.0\Tests.sourcelink.json
