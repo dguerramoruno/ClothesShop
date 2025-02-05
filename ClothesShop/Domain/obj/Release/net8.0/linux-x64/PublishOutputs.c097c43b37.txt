@@ -1,0 +1,3 @@
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Domain\obj\Release\net8.0\linux-x64\PubTmp\Out\Domain.dll
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Domain\obj\Release\net8.0\linux-x64\PubTmp\Out\Domain.deps.json
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Domain\obj\Release\net8.0\linux-x64\PubTmp\Out\Domain.pdb

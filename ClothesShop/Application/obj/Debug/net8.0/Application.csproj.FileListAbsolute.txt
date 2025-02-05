@@ -15,3 +15,4 @@ C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Application\obj\Debug\net8
 C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Application\obj\Debug\net8.0\ref\Application.dll
 C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Application\bin\Debug\net8.0\Infrastructure.dll
 C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Application\bin\Debug\net8.0\Infrastructure.pdb
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Application\obj\Debug\net8.0\Application.sourcelink.json

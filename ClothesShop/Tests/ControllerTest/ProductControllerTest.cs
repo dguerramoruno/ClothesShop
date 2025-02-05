@@ -1,102 +1,161 @@
 ﻿using Xunit;
 using Moq;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Application.DTOs;
-using Application.Service;
 using ProductApi.Controllers;
+using Application.Service;
+using Application.DTOs;
+using Domain.Models.Http;
 
 public class ProductsControllerTests
 {
-    private readonly Mock<IProductService> _mockService;
+    private readonly Mock<IProductService> _mockProductService;
     private readonly ProductsController _controller;
 
     public ProductsControllerTests()
     {
-        _mockService = new Mock<IProductService>();
-        _controller = new ProductsController(_mockService.Object);
+        _mockProductService = new Mock<IProductService>();
+        _controller = new ProductsController(_mockProductService.Object);
     }
 
     [Fact]
-    public async Task GetProducts_ShouldReturnOk_WithListOfProducts()
+    public async Task GetProducts_ReturnsOk_WhenProductsExist()
     {
         // Arrange
         var products = new List<ProductDto>
         {
-            new ProductDto { Id = 1, Size = "M", Color = "Red", Price = 19.99, Description = "Test 1" },
-            new ProductDto { Id = 2, Size = "L", Color = "Blue", Price = 29.99, Description = "Test 2" }
+            new ProductDto { Id = 1, Name = "Product1", Size = "M", Color = "Red", Price = 100, Description = "Test" },
+            new ProductDto { Id = 2, Name = "Product2", Size = "L", Color = "Blue", Price = 200, Description = "Test" }
         };
-
-        _mockService.Setup(service => service.GetAllProductsAsync()).ReturnsAsync(products);
+        _mockProductService
+            .Setup(s => s.GetAllProductsAsync())
+            .ReturnsAsync(new ApiResponse<IEnumerable<ProductDto>>(products));
 
         // Act
         var result = await _controller.GetProducts();
 
         // Assert
-        var okResult = Assert.IsType<OkObjectResult>(result);
-        var returnedProducts = Assert.IsType<List<ProductDto>>(okResult.Value);
-        Assert.Equal(2, returnedProducts.Count);
+        var okResult = Assert.IsType<ObjectResult>(result);
+        Assert.Equal(200, okResult.StatusCode);
     }
 
     [Fact]
-    public async Task GetProductById_ShouldReturnOk_WhenProductExists()
+    public async Task GetProductById_ReturnsProduct_WhenExists()
     {
         // Arrange
-        var product = new ProductDto { Id = 1, Size = "M", Color = "Red", Price = 19.99, Description = "Test Product" };
-        _mockService.Setup(service => service.GetProductByIdAsync(1)).ReturnsAsync(product);
+        var product = new ProductDto { Id = 1, Name = "Product1", Size = "M", Color = "Red", Price = 100, Description = "Test" };
+        _mockProductService
+            .Setup(s => s.GetProductByIdAsync(1))
+            .ReturnsAsync(new ApiResponse<ProductDto>(product));
 
         // Act
         var result = await _controller.GetProductById(1);
 
         // Assert
-        var okResult = Assert.IsType<OkObjectResult>(result);
-        var returnedProduct = Assert.IsType<ProductDto>(okResult.Value);
-        Assert.Equal(1, returnedProduct.Id);
+        var okResult = Assert.IsType<ObjectResult>(result);
+        Assert.Equal(200, okResult.StatusCode);
     }
 
     [Fact]
-    public async Task CreateProduct_ShouldReturn200StatusCode()
+    public async Task GetProductById_ReturnsNotFound_WhenDoesNotExist()
     {
         // Arrange
-        var newProduct = new ProductDto { Size = "M", Color = "Red", Price = 19.99, Description = "New Product" };
-        _mockService.Setup(service => service.AddProductAsync(newProduct)).Returns(Task.CompletedTask);
+        _mockProductService
+            .Setup(s => s.GetProductByIdAsync(99))
+            .ReturnsAsync(new ApiResponse<ProductDto>(null, false, "Product not found.", 404));
 
         // Act
-        var result = await _controller.CreateProduct(newProduct);
+        var result = await _controller.GetProductById(99);
 
         // Assert
-        var statusCodeResult = Assert.IsType<ObjectResult>(result);
-        Assert.Equal(200, statusCodeResult.StatusCode);
+        var notFoundResult = Assert.IsType<ObjectResult>(result);
+        Assert.Equal(404, notFoundResult.StatusCode);
     }
 
     [Fact]
-    public async Task UpdateProduct_ShouldReturn200StatusCode_WhenProductExists()
+    public async Task CreateProduct_ReturnsCreatedProduct()
     {
         // Arrange
-        var existingProduct = new ProductDto { Id = 1, Size = "M", Color = "Red", Price = 19.99, Description = "Updated Product" };
-        _mockService.Setup(service => service.GetProductByIdAsync(1)).ReturnsAsync(existingProduct);
-        _mockService.Setup(service => service.UpdateProductAsync(1, existingProduct)).Returns(Task.CompletedTask);
+        var productDto = new ProductDto { Name = "New Product", Size = "L", Color = "Green", Price = 150, Description = "Test Desc" };
+        var response = new ApiResponse<ProductDto>(productDto, true, null, 201);
+
+        _mockProductService
+            .Setup(s => s.AddProductAsync(productDto))
+            .ReturnsAsync(response);
 
         // Act
-        var result = await _controller.UpdateProduct(1, existingProduct);
+        var result = await _controller.CreateProduct(productDto);
 
         // Assert
-        var statusCodeResult = Assert.IsType<ObjectResult>(result);
-        Assert.Equal(200, statusCodeResult.StatusCode);
+        var createdResult = Assert.IsType<ObjectResult>(result);
+        Assert.Equal(201, createdResult.StatusCode);
     }
 
     [Fact]
-    public async Task DeleteProduct_ShouldReturn200StatusCode_WhenProductExists()
+    public async Task UpdateProduct_ReturnsUpdatedProduct_WhenExists()
     {
         // Arrange
-        _mockService.Setup(service => service.DeleteProductAsync(1)).Returns(Task.CompletedTask);
+        var updatedProduct = new ProductDto { Name = "Updated Product", Size = "L", Color = "White", Price = 120, Description = "Updated Desc" };
+        var response = new ApiResponse<ProductDto>(updatedProduct, true, null, 200);
+
+        _mockProductService
+            .Setup(s => s.UpdateProductAsync(1, updatedProduct))
+            .ReturnsAsync(response);
+
+        // Act
+        var result = await _controller.UpdateProduct(1, updatedProduct);
+
+        // Assert
+        var okResult = Assert.IsType<ObjectResult>(result);
+        Assert.Equal(200, okResult.StatusCode);
+    }
+
+    [Fact]
+    public async Task UpdateProduct_ReturnsNotFound_WhenDoesNotExist()
+    {
+        // Arrange
+        _mockProductService
+            .Setup(s => s.UpdateProductAsync(99, It.IsAny<ProductDto>()))
+            .ReturnsAsync(new ApiResponse<ProductDto>(null, false, "Product not found.", 404));
+
+        // Act
+        var result = await _controller.UpdateProduct(99, new ProductDto());
+
+        // Assert
+        var notFoundResult = Assert.IsType<ObjectResult>(result);
+        Assert.Equal(404, notFoundResult.StatusCode);
+    }
+
+    [Fact]
+    public async Task DeleteProduct_ReturnsSuccess_WhenDeleted()
+    {
+        // Arrange
+        _mockProductService
+            .Setup(s => s.DeleteProductAsync(1))
+            .ReturnsAsync(new ApiResponse<bool>(true, true, null, 200));
 
         // Act
         var result = await _controller.DeleteProduct(1);
 
         // Assert
-        var statusCodeResult = Assert.IsType<StatusCodeResult>(result);
-        Assert.Equal(200, statusCodeResult.StatusCode);
+        var okResult = Assert.IsType<ObjectResult>(result);
+        Assert.Equal(200, okResult.StatusCode);
+    }
+
+    [Fact]
+    public async Task DeleteProduct_ReturnsNotFound_WhenDoesNotExist()
+    {
+        // Arrange
+        _mockProductService
+            .Setup(s => s.DeleteProductAsync(99))
+            .ReturnsAsync(new ApiResponse<bool>(false, false, "Product not found.", 404));
+
+        // Act
+        var result = await _controller.DeleteProduct(99);
+
+        // Assert
+        var notFoundResult = Assert.IsType<ObjectResult>(result);
+        Assert.Equal(404, notFoundResult.StatusCode);
     }
 }

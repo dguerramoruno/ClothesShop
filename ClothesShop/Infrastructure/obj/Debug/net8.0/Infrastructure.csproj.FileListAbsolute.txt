@@ -15,3 +15,4 @@ C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Infrastructure\obj\Debug\n
 C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Infrastructure\obj\Debug\net8.0\Infrastructure.pdb
 C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Infrastructure\obj\Debug\net8.0\Infrastructure.genruntimeconfig.cache
 C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Infrastructure\obj\Debug\net8.0\ref\Infrastructure.dll
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Infrastructure\obj\Debug\net8.0\Infrastructure.sourcelink.json

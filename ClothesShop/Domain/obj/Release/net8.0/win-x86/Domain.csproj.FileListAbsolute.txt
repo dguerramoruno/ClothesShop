@@ -1,0 +1,12 @@
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Domain\bin\Release\net8.0\win-x86\Domain.deps.json
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Domain\bin\Release\net8.0\win-x86\Domain.dll
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Domain\bin\Release\net8.0\win-x86\Domain.pdb
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Domain\obj\Release\net8.0\win-x86\Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Domain\obj\Release\net8.0\win-x86\Domain.AssemblyInfoInputs.cache
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Domain\obj\Release\net8.0\win-x86\Domain.AssemblyInfo.cs
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Domain\obj\Release\net8.0\win-x86\Domain.csproj.CoreCompileInputs.cache
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Domain\obj\Release\net8.0\win-x86\Domain.sourcelink.json
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Domain\obj\Release\net8.0\win-x86\Domain.dll
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Domain\obj\Release\net8.0\win-x86\refint\Domain.dll
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Domain\obj\Release\net8.0\win-x86\Domain.pdb
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Domain\obj\Release\net8.0\win-x86\ref\Domain.dll

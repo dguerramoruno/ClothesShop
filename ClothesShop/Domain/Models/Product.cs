@@ -6,7 +6,8 @@ namespace Domain.Models
     public class Product
     {
         public long Id { get; set; }
-
+        [Required(ErrorMessage ="Name is required.")]
+        public string Name { get; set; }
         [Required(ErrorMessage = "Size is required.")]
         public string Size { get; set; }
         [Required(ErrorMessage = "Color is required.")]

@@ -1,13 +1,14 @@
 ﻿using Application.DTOs;
+using Domain.Models.Http;
 
 namespace Application.Service
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductDto>> GetAllProductsAsync();
-        Task<ProductDto> GetProductByIdAsync(long id);
-        Task AddProductAsync(ProductDto productDto);
-        Task UpdateProductAsync(long id, ProductDto productDto);
-        Task DeleteProductAsync(long id);
+        Task<ApiResponse<IEnumerable<ProductDto>>> GetAllProductsAsync();
+        Task<ApiResponse<ProductDto>> GetProductByIdAsync(long id);
+        Task<ApiResponse<ProductDto>> AddProductAsync(ProductDto productDto);
+        Task<ApiResponse<ProductDto>> UpdateProductAsync(long id, ProductDto productDto);
+        Task<ApiResponse<bool>> DeleteProductAsync(long id);
     }
 }

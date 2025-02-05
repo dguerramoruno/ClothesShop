@@ -1,116 +1,132 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Xunit;
+﻿using Xunit;
 using Moq;
-using Application.DTOs;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Application.Service;
 using Domain.Models;
-using Domain.Models.Interfaces;
+using Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
+using Application.DTOs;
+using Domain.Models.Http;
 
 public class ProductServiceTests
 {
-    private readonly Mock<IProductRepository> _mockRepo;
+    private readonly ProductDbContext _dbContext;
     private readonly ProductService _productService;
 
     public ProductServiceTests()
     {
-        _mockRepo = new Mock<IProductRepository>();
-        _productService = new ProductService(_mockRepo.Object);
+        // Configurar una base de datos en memoria
+        var options = new DbContextOptionsBuilder<ProductDbContext>()
+            .UseInMemoryDatabase(databaseName: "TestDb")
+            .Options;
+        _dbContext = new ProductDbContext(options);
+
+        // Crear un repositorio mock
+
+        // Instanciar el servicio con el contexto y el mock del repositorio
+        _productService = new ProductService(_dbContext);
     }
 
     [Fact]
-    public async Task GetAllProductsAsync_ShouldReturnListOfProducts()
+    public async Task GetAllProductsAsync_ReturnsListOfProducts()
     {
         // Arrange
-        var products = new List<Product>
-        {
-            new Product { Id = 1, Size = "M", Color = "Red", Price = 19.99, Description = "Product 1" },
-            new Product { Id = 2, Size = "L", Color = "Blue", Price = 29.99, Description = "Product 2" }
-        };
-
-        _mockRepo.Setup(repo => repo.GetAllAsync()).ReturnsAsync(products);
+        _dbContext.Products.Add(new Product { Id = 543, Name = "Product1", Size = "M", Color = "Red", Price = 100, Description = "Test" });
+        _dbContext.Products.Add(new Product { Id = 234, Name = "Product2", Size = "L", Color = "Blue", Price = 200, Description = "Test" });
+        await _dbContext.SaveChangesAsync();
 
         // Act
-        var result = await _productService.GetAllProductsAsync();
+        var response = await _productService.GetAllProductsAsync();
 
         // Assert
-        Assert.NotNull(result);
-        Assert.Equal(2, result.Count());
-        Assert.Equal("M", result.First().Size);
+        Assert.True(response.Success);
+        Assert.NotNull(response.Data);
+        Assert.Equal(2, response.Data.Count());
     }
 
     [Fact]
-    public async Task GetProductByIdAsync_ShouldReturnCorrectProduct()
+    public async Task GetProductByIdAsync_ReturnsProduct_WhenExists()
     {
         // Arrange
-        var product = new Product { Id = 1, Size = "M", Color = "Red", Price = 19.99, Description = "Test Product" };
-        _mockRepo.Setup(repo => repo.GetByIdAsync(1)).ReturnsAsync(product);
+        _dbContext.Products.Add(new Product { Id = 864, Name = "Product1", Size = "M", Color = "Red", Price = 100, Description = "Test" });
+        await _dbContext.SaveChangesAsync();
 
         // Act
-        var result = await _productService.GetProductByIdAsync(1);
+        var response = await _productService.GetProductByIdAsync(864);
 
         // Assert
-        Assert.NotNull(result);
-        Assert.Equal(1, result.Id);
-        Assert.Equal("M", result.Size);
+        Assert.True(response.Success);
+        Assert.NotNull(response.Data);
+        Assert.Equal("Product1", response.Data.Name);
     }
 
     [Fact]
-    public async Task GetProductByIdAsync_ShouldReturnNull_WhenProductNotFound()
+    public async Task GetProductByIdAsync_ReturnsNotFound_WhenDoesNotExist()
     {
-        // Arrange
-        _mockRepo.Setup(repo => repo.GetByIdAsync(It.IsAny<long>())).ReturnsAsync((Product)null);
-
         // Act
-        var result = await _productService.GetProductByIdAsync(999);
+        var response = await _productService.GetProductByIdAsync(99);
 
         // Assert
-        Assert.Null(result);
+        Assert.False(response.Success);
+        Assert.Equal(404, response.StatusCode);
+        Assert.Equal("Product not found.", response.ErrorMessage);
     }
 
     [Fact]
-    public async Task AddProductAsync_ShouldCallRepositoryOnce()
+    public async Task AddProductAsync_AddsProductSuccessfully()
     {
         // Arrange
-        var productDto = new ProductDto { Size = "M", Color = "Red", Price = 19.99, Description = "Test Product" };
+        var newProduct = new ProductDto { Name = "New Product", Size = "L", Color = "Green", Price = 150, Description = "Test Desc" };
 
         // Act
-        await _productService.AddProductAsync(productDto);
+        var response = await _productService.AddProductAsync(newProduct);
 
         // Assert
-        _mockRepo.Verify(repo => repo.AddAsync(It.IsAny<Product>()), Times.Once);
+        Assert.True(response.Success);
+        Assert.NotNull(response.Data);
+        Assert.Equal("New Product", response.Data.Name);
     }
 
     [Fact]
-    public async Task UpdateProductAsync_ShouldModifyExistingProduct()
+    public async Task UpdateProductAsync_UpdatesProductSuccessfully()
     {
         // Arrange
-        var existingProduct = new Product { Id = 1, Size = "M", Color = "Red", Price = 19.99, Description = "Old Description" };
-        var productDto = new ProductDto { Size = "L", Color = "Blue", Price = 25.99, Description = "Updated Description" };
-
-        _mockRepo.Setup(repo => repo.GetByIdAsync(1)).ReturnsAsync(existingProduct);
+        _dbContext.Products.Add(new Product { Id = 1, Name = "Old Product", Size = "M", Color = "Black", Price = 100, Description = "Old Desc" });
+        await _dbContext.SaveChangesAsync();
+        var updatedProduct = new ProductDto { Name = "Updated Product", Size = "L", Color = "White", Price = 120, Description = "Updated Desc" };
 
         // Act
-        await _productService.UpdateProductAsync(1, productDto);
+        var response = await _productService.UpdateProductAsync(1, updatedProduct);
 
         // Assert
-        _mockRepo.Verify(repo => repo.UpdateAsync(It.Is<Product>(p =>
-            p.Size == "L" && p.Color == "Blue" && p.Price == 25.99 && p.Description == "Updated Description")),
-            Times.Once);
+        Assert.True(response.Success);
+        Assert.NotNull(response.Data);
+        Assert.Equal("Updated Product", response.Data.Name);
     }
 
     [Fact]
-    public async Task DeleteProductAsync_ShouldCallRepositoryOnce()
+    public async Task DeleteProductAsync_DeletesProductSuccessfully()
     {
         // Arrange
-        _mockRepo.Setup(repo => repo.DeleteAsync(1)).Returns(Task.CompletedTask);
+        _dbContext.Products.Add(new Product { Id = 123, Name = "Product to Delete", Size = "S", Color = "Yellow", Price = 50, Description = "Test" });
+        await _dbContext.SaveChangesAsync();
 
         // Act
-        await _productService.DeleteProductAsync(1);
+        var response = await _productService.DeleteProductAsync(123);
 
         // Assert
-        _mockRepo.Verify(repo => repo.DeleteAsync(1), Times.Once);
+        Assert.True(response.Success);
+    }
+
+    [Fact]
+    public async Task DeleteProductAsync_ReturnsNotFound_WhenProductDoesNotExist()
+    {
+        // Act
+        var response = await _productService.DeleteProductAsync(0);
+
+        // Assert
+        Assert.False(response.Success);
+        Assert.Equal(500, response.StatusCode);
     }
 }

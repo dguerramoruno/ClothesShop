@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Domain.Models;
 using Application.DTOs;
 using Application.Service;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProductApi.Controllers
 {
@@ -16,14 +17,14 @@ namespace ProductApi.Controllers
         {
             _productService = productService;
         }
-
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
             try
             {
-                var products = await _productService.GetAllProductsAsync();
-                return Ok(products); 
+                var result = await _productService.GetAllProductsAsync().ConfigureAwait(false);
+                return StatusCode(result.StatusCode,result); 
             }
             catch (Exception ex)
             {
@@ -31,14 +32,14 @@ namespace ProductApi.Controllers
                 return StatusCode(500, new { message = "Error fetching Products.", details = ex.Message });
             }
         }
-
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById(long id)
         {
             try
             {
-                var product = await _productService.GetProductByIdAsync(id);
-                return Ok(product); 
+                var result = await _productService.GetProductByIdAsync(id);
+                return StatusCode(result.StatusCode, result);
             }
             catch (Exception ex)
             {
@@ -46,47 +47,41 @@ namespace ProductApi.Controllers
             }
         }
 
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] ProductDto product)
         {
             try
             {
-                await _productService.AddProductAsync(product);
-                return StatusCode(200, product);
+                var result = await _productService.AddProductAsync(product);
+                return StatusCode(result.StatusCode, result);
 
             }
             catch (Exception ex) { 
                 return StatusCode(500, ex);
             }
         }
-
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductDto updatedProduct)
         {
             try { 
-            await _productService.UpdateProductAsync(id, updatedProduct);
-            var existingProduct = await _productService.GetProductByIdAsync(id);
-            if (existingProduct.Id != id )
-                return StatusCode(500, "Error Updating Product");
-            
-            return StatusCode(200, existingProduct);
+                var result = await _productService.UpdateProductAsync(id, updatedProduct);
+                return StatusCode(result.StatusCode, result);
             }
-            
-
             catch (Exception ex) 
             {
                  return StatusCode(500, ex);
             }
         }
-
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(long id)
         {
             try
             {
-               await _productService.DeleteProductAsync(id);
-                return StatusCode(200);
+                var result = await _productService.DeleteProductAsync(id);
+                return StatusCode(result.StatusCode, result);
             }
             catch (Exception ex)
             {

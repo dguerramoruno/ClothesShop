@@ -254,3 +254,5 @@ C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Tests\bin\Debug\net8.0\Swa
 C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Tests\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Tests\bin\Debug\net8.0\ClothesShop.dll
 C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Tests\bin\Debug\net8.0\ClothesShop.pdb
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Tests\obj\Debug\net8.0\Tests.sourcelink.json
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\Tests\bin\Debug\net8.0\BCrypt.Net.dll
