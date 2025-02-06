@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Domain.Models.Http;
-using Application.DTOs;
+using Domain.DTOs;
 
 [Route("api/[controller]")]
 [ApiController]

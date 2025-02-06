@@ -6,6 +6,8 @@ C:\Users\David\source\repos\PruebaTecnica\ClothesShop\ClothesShop\obj\Release\ne
 C:\Users\David\source\repos\PruebaTecnica\ClothesShop\ClothesShop\obj\Release\net8.0\PubTmp\Out\ClothesShop.pdb
 C:\Users\David\source\repos\PruebaTecnica\ClothesShop\ClothesShop\obj\Release\net8.0\PubTmp\Out\Azure.Core.dll
 C:\Users\David\source\repos\PruebaTecnica\ClothesShop\ClothesShop\obj\Release\net8.0\PubTmp\Out\Azure.Identity.dll
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\ClothesShop\obj\Release\net8.0\PubTmp\Out\BCrypt.Net.dll
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\ClothesShop\obj\Release\net8.0\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\David\source\repos\PruebaTecnica\ClothesShop\ClothesShop\obj\Release\net8.0\PubTmp\Out\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\David\source\repos\PruebaTecnica\ClothesShop\ClothesShop\obj\Release\net8.0\PubTmp\Out\Microsoft.Data.SqlClient.dll
 C:\Users\David\source\repos\PruebaTecnica\ClothesShop\ClothesShop\obj\Release\net8.0\PubTmp\Out\Microsoft.EntityFrameworkCore.dll

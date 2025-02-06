@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Domain.Models;
-using Application.DTOs;
+using Domain.DTOs;
 using Application.Service;
 using Microsoft.AspNetCore.Authorization;
 

@@ -173,3 +173,5 @@ C:\Users\David\source\repos\PruebaTecnica\ClothesShop\ClothesShop\obj\Release\ne
 C:\Users\David\source\repos\PruebaTecnica\ClothesShop\ClothesShop\obj\Release\net8.0\ClothesShop.pdb
 C:\Users\David\source\repos\PruebaTecnica\ClothesShop\ClothesShop\obj\Release\net8.0\ClothesShop.genruntimeconfig.cache
 C:\Users\David\source\repos\PruebaTecnica\ClothesShop\ClothesShop\obj\Release\net8.0\ref\ClothesShop.dll
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\ClothesShop\bin\Release\net8.0\BCrypt.Net.dll
+C:\Users\David\source\repos\PruebaTecnica\ClothesShop\ClothesShop\bin\Release\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

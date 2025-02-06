@@ -1,7 +1,7 @@
-﻿using Application.DTOs;
+﻿using Domain.DTOs;
 using Domain.Models;
 using Infrastructure.Context;
-using Domain.Models.Http; // Asegúrate de que esta referencia esté correctamente configurada
+using Domain.Models.Http;
 
 namespace Application.Service
 {
@@ -29,11 +29,11 @@ namespace Application.Service
                     Description = p.Description
                 });
 
-                return new ApiResponse<IEnumerable<ProductDto>>(productDtos); // Respuesta exitosa
+                return new ApiResponse<IEnumerable<ProductDto>>(productDtos); 
             }
             catch (Exception ex)
             {
-                return new ApiResponse<IEnumerable<ProductDto>>(null, false, "Error fetching products: " + ex.Message, 500); // Error
+                return new ApiResponse<IEnumerable<ProductDto>>(null, false, "Error fetching products: " + ex.Message, 500); 
             }
         }
 
@@ -44,7 +44,7 @@ namespace Application.Service
                 var product = await _context.Products.FindAsync(id);
                 if (product == null)
                 {
-                    return new ApiResponse<ProductDto>(null, false, "Product not found.", 404); // Producto no encontrado
+                    return new ApiResponse<ProductDto>(null, false, "Product not found.", 404); 
                 }
 
                 var productDto = new ProductDto
@@ -57,11 +57,11 @@ namespace Application.Service
                     Description = product.Description
                 };
 
-                return new ApiResponse<ProductDto>(productDto); // Respuesta exitosa
+                return new ApiResponse<ProductDto>(productDto);
             }
             catch (Exception ex)
             {
-                return new ApiResponse<ProductDto>(null, false, $"Error fetching product with ID: {id} - {ex.Message}", 500); // Error
+                return new ApiResponse<ProductDto>(null, false, $"Error fetching product with ID: {id} - {ex.Message}", 500); 
             }
         }
 
@@ -69,6 +69,14 @@ namespace Application.Service
         {
             try
             {
+                var existingProduct = _context.Products.Where(p => p.Name.Equals(productDto.Name)).FirstOrDefault();
+                if (existingProduct != null) {
+                    return new ApiResponse<ProductDto>(null, false, "Product al ready exists", HttpStatusCodes.InternalServerError);
+                }
+                if (productDto.Price <= 0)
+                {
+                    return new ApiResponse<ProductDto>(null, false, "Price must be bigger than 0", HttpStatusCodes.InternalServerError);
+                }
                 var product = new Product
                 {
                     Size = productDto.Size,
@@ -79,19 +87,14 @@ namespace Application.Service
                 };
 
                 await _context.Products.AddAsync(product);
-                await _context.SaveChangesAsync();
-                var addedProductDto = new ProductDto
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Size = product.Size,
-                    Color = product.Color,
-                    Price = product.Price,
-                    Description = product.Description
-                };
+                var result = await _context.SaveChangesAsync();
+                if(result != 0) { 
 
-                return new ApiResponse<ProductDto>(addedProductDto);
-            }
+                    return new ApiResponse<ProductDto>(productDto);
+                }
+
+                return new ApiResponse<ProductDto>(null, false, "Product wasn't inserted", HttpStatusCodes.InternalServerError);
+        }
             catch (Exception ex)
             {
                 return new ApiResponse<ProductDto>(null, false, "Error adding product: " + ex.Message, 500); 
@@ -103,11 +106,18 @@ namespace Application.Service
             try
             {
                 var product = await _context.Products.FindAsync(id);
-                if (product == null)
+                if (product == null) 
                 {
                     return new ApiResponse<ProductDto>(null, false, "Product not found.", 404); 
                 }
-
+                var existingNameProduct = _context.Products.Where(p => p.Name.Equals(productDto.Name) & p.Id != id).FirstOrDefault();
+                if (existingNameProduct != null) {
+                    return new ApiResponse<ProductDto>(null, false, "This product name already exists.", 500);
+                }
+                if (productDto.Price <= 0)
+                {
+                    return new ApiResponse<ProductDto>(null, false, "Price must be bigger than 0", HttpStatusCodes.InternalServerError);
+                }
                 product.Size = productDto.Size;
                 product.Name = productDto.Name;
                 product.Color = productDto.Color;
@@ -115,23 +125,17 @@ namespace Application.Service
                 product.Description = productDto.Description;
 
                 _context.Products.Update(product);
-                await _context.SaveChangesAsync();
+                var response = await _context.SaveChangesAsync();
 
-                var updatedProductDto = new ProductDto
+                if (response != 0)
                 {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Size = product.Size,
-                    Color = product.Color,
-                    Price = product.Price,
-                    Description = product.Description
-                };
-
-                return new ApiResponse<ProductDto>(updatedProductDto); // Respuesta exitosa
+                    return new ApiResponse<ProductDto>(productDto);
+                }
+                return new ApiResponse<ProductDto>(null, false, "Error updating product at DB",HttpStatusCodes.InternalServerError);
             }
             catch (Exception ex)
             {
-                return new ApiResponse<ProductDto>(null, false, $"Error updating product with ID {id}: {ex.Message}", 500); // Error
+                return new ApiResponse<ProductDto>(null, false, $"Error updating product with ID {id}: {ex.Message}", 500); 
             }
         }
 
@@ -140,13 +144,20 @@ namespace Application.Service
             try
             {
                 var product = await _context.Products.FindAsync(id);
+                if (product == null) 
+                {
+                    return new ApiResponse<bool>(false,false,"This product was not found",HttpStatusCodes.InternalServerError);
+                }
                 var success = _context.Products.Remove(product);
-                await _context.SaveChangesAsync();
-                return new ApiResponse<bool>(true); 
+                var response = await _context.SaveChangesAsync();
+                if(response != 0) { 
+                    return new ApiResponse<bool>(true);
+                }
+                return new ApiResponse<bool>(false, false, "Error deleting this product in Database", HttpStatusCodes.InternalServerError);
             }
             catch (Exception ex)
             {
-                return new ApiResponse<bool>(false, false, $"Error deleting product with ID {id}: {ex.Message}", 500); // Error
+                return new ApiResponse<bool>(false, false, $"Error deleting product with ID {id}: {ex.Message}", 500); 
             }
         }
     }

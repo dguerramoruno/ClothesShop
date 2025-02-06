@@ -58,14 +58,25 @@ https://clotheshop-dme6f9h9a3c8h2ca.spaincentral-01.azurewebsites.net
 
 A .NET-based API image.
 A SQL Server database.
-Steps to Run with Docker
-Install Docker: Make sure Docker is installed on your machine.
 
-Create the image: In the root of the project, run:
+# Local Deployment
+Steps to Run with Docker
+
+1.**Install Docker:** Make sure Docker is installed on your machine.
+
+2.**Pull SQL Server Docker Image** Before running the application locally, ensure you have a SQL Server instance running in a Docker container. Use the following command to pull and run the image:
+
+    docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YourStrongPassword!" -p 1433:1433 --name sqlserver -d mcr.microsoft.com/mssql/server:2019-latest
+
+3.**Update appsettings.json**
+Update the connection string in your appsettings.json file to point to the local SQL Server instance:
+
+
+4.**Create the image:** In the root of the project, run:
 
 
     docker build -t clothesshop-api .
-Start the container: Use the included docker-compose.yml file to bring up the API and the database:
+5.**Start the container:** Use the included docker-compose.yml file to bring up the API and the database:
 
 
     docker-compose up

@@ -3,8 +3,9 @@ using BCrypt.Net;
 using Domain.Models;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using Application.DTOs;
+using Domain.DTOs;
 using Application.Service;
+using System.Text.RegularExpressions;
 public class UserService : IUserService
 {
     private readonly ProductDbContext _context;
@@ -17,6 +18,13 @@ public class UserService : IUserService
 
     public async Task<ApiResponse<string>> RegisterUserAsync(UserRegisterDto userDto)
     {
+        var passwordPattern = @"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$";
+
+        if (!Regex.IsMatch(userDto.Password, passwordPattern))
+        {
+            return new ApiResponse<string>(null, false, "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.", 400);
+        }
+
         var userDb =  _context.Users.Where(u => u.Username == userDto.Username).Count();
         if (userDb != 0)
         {

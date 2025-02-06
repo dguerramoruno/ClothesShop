@@ -1,0 +1,265 @@
+{
+	"info": {
+		"_postman_id": "04d5cf51-fcc5-482e-a613-7a24bcd30ba5",
+		"name": "ProductCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41847946"
+	},
+	"item": [
+		{
+			"name": "GET PRODUCT BY ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXJpYW5hbzEyMyIsImVtYWlsIjoidXNlckBleGFtcGxlLmNvbSIsInVzZXJJZCI6IjMiLCJleHAiOjE3Mzg4Mzk5NzksImlzcyI6Imh0dHBzOi8vY2xvdGhlc2hvcC1kbWU2ZjloOWEzYzhoMmNhLnNwYWluY2VudHJhbC0wMS5henVyZXdlYnNpdGVzLm5ldC8iLCJhdWQiOiJodHRwczovL2Nsb3RoZXNob3AtZG1lNmY5aDlhM2M4aDJjYS5zcGFpbmNlbnRyYWwtMDEuYXp1cmV3ZWJzaXRlcy5uZXQvIn0.e_HNh_d7pdpgTBnGW1YifnLWNQz5N7qeSc9YPPWj1Rw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://clotheshop-dme6f9h9a3c8h2ca.spaincentral-01.azurewebsites.net/api/Products/33",
+					"protocol": "https",
+					"host": [
+						"clotheshop-dme6f9h9a3c8h2ca",
+						"spaincentral-01",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"Products",
+						"33"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE PRODUCT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXJpYW5hbzEyMyIsImVtYWlsIjoidXNlckBleGFtcGxlLmNvbSIsInVzZXJJZCI6IjMiLCJleHAiOjE3Mzg4Mzk5NzksImlzcyI6Imh0dHBzOi8vY2xvdGhlc2hvcC1kbWU2ZjloOWEzYzhoMmNhLnNwYWluY2VudHJhbC0wMS5henVyZXdlYnNpdGVzLm5ldC8iLCJhdWQiOiJodHRwczovL2Nsb3RoZXNob3AtZG1lNmY5aDlhM2M4aDJjYS5zcGFpbmNlbnRyYWwtMDEuYXp1cmV3ZWJzaXRlcy5uZXQvIn0.e_HNh_d7pdpgTBnGW1YifnLWNQz5N7qeSc9YPPWj1Rw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"test\",\r\n  \"size\": \"string\",\r\n  \"color\": \"string\",\r\n  \"price\": 0,\r\n  \"description\": \"string2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://clotheshop-dme6f9h9a3c8h2ca.spaincentral-01.azurewebsites.net/api/Products/35",
+					"protocol": "https",
+					"host": [
+						"clotheshop-dme6f9h9a3c8h2ca",
+						"spaincentral-01",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"Products",
+						"35"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE PRODUCT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXJpYW5hbzEyMyIsImVtYWlsIjoidXNlckBleGFtcGxlLmNvbSIsInVzZXJJZCI6IjMiLCJleHAiOjE3Mzg4Mzk5NzksImlzcyI6Imh0dHBzOi8vY2xvdGhlc2hvcC1kbWU2ZjloOWEzYzhoMmNhLnNwYWluY2VudHJhbC0wMS5henVyZXdlYnNpdGVzLm5ldC8iLCJhdWQiOiJodHRwczovL2Nsb3RoZXNob3AtZG1lNmY5aDlhM2M4aDJjYS5zcGFpbmNlbnRyYWwtMDEuYXp1cmV3ZWJzaXRlcy5uZXQvIn0.e_HNh_d7pdpgTBnGW1YifnLWNQz5N7qeSc9YPPWj1Rw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://clotheshop-dme6f9h9a3c8h2ca.spaincentral-01.azurewebsites.net/api/Products/33",
+					"protocol": "https",
+					"host": [
+						"clotheshop-dme6f9h9a3c8h2ca",
+						"spaincentral-01",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"Products",
+						"33"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE PRODUCT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXJpYW5hbzEyMyIsImVtYWlsIjoidXNlckBleGFtcGxlLmNvbSIsInVzZXJJZCI6IjMiLCJleHAiOjE3Mzg4Mzk5NzksImlzcyI6Imh0dHBzOi8vY2xvdGhlc2hvcC1kbWU2ZjloOWEzYzhoMmNhLnNwYWluY2VudHJhbC0wMS5henVyZXdlYnNpdGVzLm5ldC8iLCJhdWQiOiJodHRwczovL2Nsb3RoZXNob3AtZG1lNmY5aDlhM2M4aDJjYS5zcGFpbmNlbnRyYWwtMDEuYXp1cmV3ZWJzaXRlcy5uZXQvIn0.e_HNh_d7pdpgTBnGW1YifnLWNQz5N7qeSc9YPPWj1Rw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"23\",\r\n  \"size\": \"3XL\",\r\n  \"color\": \"RED\",\r\n  \"price\": 0,\r\n  \"description\": \"T-Shirt red\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://clotheshop-dme6f9h9a3c8h2ca.spaincentral-01.azurewebsites.net/api/Products",
+					"protocol": "https",
+					"host": [
+						"clotheshop-dme6f9h9a3c8h2ca",
+						"spaincentral-01",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"Products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET ALL PRODUCTS",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXJpYW5hbzEyMyIsImVtYWlsIjoidXNlckBleGFtcGxlLmNvbSIsInVzZXJJZCI6IjMiLCJleHAiOjE3Mzg4Mzk5NzksImlzcyI6Imh0dHBzOi8vY2xvdGhlc2hvcC1kbWU2ZjloOWEzYzhoMmNhLnNwYWluY2VudHJhbC0wMS5henVyZXdlYnNpdGVzLm5ldC8iLCJhdWQiOiJodHRwczovL2Nsb3RoZXNob3AtZG1lNmY5aDlhM2M4aDJjYS5zcGFpbmNlbnRyYWwtMDEuYXp1cmV3ZWJzaXRlcy5uZXQvIn0.e_HNh_d7pdpgTBnGW1YifnLWNQz5N7qeSc9YPPWj1Rw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://clotheshop-dme6f9h9a3c8h2ca.spaincentral-01.azurewebsites.net/api/Products/",
+					"protocol": "https",
+					"host": [
+						"clotheshop-dme6f9h9a3c8h2ca",
+						"spaincentral-01",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"Products",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE USER",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"string\",\r\n  \"email\": \"user@example.com\",\r\n  \"password\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://clotheshop-dme6f9h9a3c8h2ca.spaincentral-01.azurewebsites.net/api/User/register",
+					"protocol": "https",
+					"host": [
+						"clotheshop-dme6f9h9a3c8h2ca",
+						"spaincentral-01",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"User",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN USER",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"string\",\r\n  \"password\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://clotheshop-dme6f9h9a3c8h2ca.spaincentral-01.azurewebsites.net/api/User/login",
+					"protocol": "https",
+					"host": [
+						"clotheshop-dme6f9h9a3c8h2ca",
+						"spaincentral-01",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"User",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

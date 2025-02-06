@@ -1,6 +1,6 @@
 ﻿using Domain.Models.Http;
 using Domain.Models;
-using Application.DTOs;
+using Domain.DTOs;
 
 public interface IUserService
 {
